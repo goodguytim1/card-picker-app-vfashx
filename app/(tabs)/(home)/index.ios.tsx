@@ -1,5 +1,4 @@
 
-import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -7,11 +6,8 @@ import {
   ScrollView,
   TouchableOpacity,
   Dimensions,
-  Platform,
+  Image,
 } from 'react-native';
-import { colors } from '@/styles/commonStyles';
-import { DECKS } from '@/data/decks';
-import { Card, Deck } from '@/types/card';
 import { useFavorites } from '@/hooks/useFavorites';
 import Animated, {
   useSharedValue,
@@ -20,61 +16,22 @@ import Animated, {
   withSequence,
   interpolate,
 } from 'react-native-reanimated';
+import React, { useState } from 'react';
 import { IconSymbol } from '@/components/IconSymbol';
+import { DECKS } from '@/data/decks';
+import { colors } from '@/styles/commonStyles';
+import { Card, Deck } from '@/types/card';
 import * as Haptics from 'expo-haptics';
 
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
-const CARD_WIDTH = SCREEN_WIDTH - 80;
+const CARD_WIDTH = Dimensions.get('window').width - 60;
 
 export default function HomeScreen() {
   const [selectedDeck, setSelectedDeck] = useState<Deck | null>(null);
   const [currentCard, setCurrentCard] = useState<Card | null>(null);
-  const { favorites, toggleFavorite, isFavorite } = useFavorites();
+  const { isFavorite, toggleFavorite } = useFavorites();
   
   const flipAnimation = useSharedValue(0);
-  const favoriteAnimation = useSharedValue(0);
-
-  const drawCard = (deck: Deck | null) => {
-    if (Platform.OS !== 'web') {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    }
-    
-    let cardPool: Card[] = [];
-    
-    if (deck) {
-      cardPool = deck.cards;
-    } else {
-      // Draw from all decks
-      DECKS.forEach(d => {
-        cardPool = [...cardPool, ...d.cards];
-      });
-    }
-
-    const randomIndex = Math.floor(Math.random() * cardPool.length);
-    const card = cardPool[randomIndex];
-
-    // Trigger flip animation
-    flipAnimation.value = withSequence(
-      withSpring(1, { damping: 15, stiffness: 100 }),
-      withSpring(0, { damping: 15, stiffness: 100 })
-    );
-
-    setCurrentCard(card);
-  };
-
-  const handleToggleFavorite = (card: Card) => {
-    if (Platform.OS !== 'web') {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    }
-    
-    toggleFavorite(card);
-    
-    // Trigger favorite animation
-    favoriteAnimation.value = withSequence(
-      withSpring(1, { damping: 10, stiffness: 200 }),
-      withSpring(0, { damping: 10, stiffness: 200 })
-    );
-  };
+  const heartScale = useSharedValue(1);
 
   const cardAnimatedStyle = useAnimatedStyle(() => {
     const rotateY = interpolate(flipAnimation.value, [0, 1], [0, 180]);
@@ -83,155 +40,106 @@ export default function HomeScreen() {
     };
   });
 
-  const favoriteAnimatedStyle = useAnimatedStyle(() => {
-    const scale = interpolate(favoriteAnimation.value, [0, 1], [1, 1.3]);
+  const heartAnimatedStyle = useAnimatedStyle(() => {
     return {
-      transform: [{ scale }],
+      transform: [{ scale: heartScale.value }],
     };
   });
 
+  const drawCard = (deck: Deck | null) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    
+    const cardsPool = deck ? deck.cards : DECKS.flatMap(d => d.cards);
+    const randomCard = cardsPool[Math.floor(Math.random() * cardsPool.length)];
+    
+    flipAnimation.value = withSequence(
+      withSpring(1, { damping: 15 }),
+      withSpring(0, { damping: 15 })
+    );
+    
+    setTimeout(() => setCurrentCard(randomCard), 300);
+  };
+
+  const handleToggleFavorite = (card: Card) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    heartScale.value = withSequence(
+      withSpring(1.3, { damping: 10 }),
+      withSpring(1, { damping: 10 })
+    );
+    toggleFavorite(card.id);
+  };
+
   return (
-    <View style={styles.container}>
-      <ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
+    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+      {/* Header with Crystal Ball Logo */}
+      <View style={styles.header}>
+        <Image 
+          source={require('@/assets/images/d319e23a-883e-4dc0-a32c-e41ef19f0d10.png')}
+          style={styles.crystalBall}
+        />
+        <Text style={styles.title}>Magick</Text>
+      </View>
+      
+      <Text style={styles.subtitle}>Where conversations become Magick</Text>
+
+      {/* Deck Selection */}
+      <Text style={styles.sectionTitle}>Choose Your Deck</Text>
+      <View style={styles.deckGrid}>
+        {DECKS.map((deck) => (
+          <TouchableOpacity
+            key={deck.id}
+            style={[
+              styles.deckCard,
+              selectedDeck?.id === deck.id && styles.deckCardSelected,
+            ]}
+            onPress={() => setSelectedDeck(deck)}
+          >
+            <View style={styles.deckIconContainer}>
+              <Text style={styles.deckIcon}>{deck.icon}</Text>
+            </View>
+            <Text style={styles.deckName}>{deck.name}</Text>
+            <Text style={styles.deckDescription}>{deck.description}</Text>
+            <Text style={styles.deckCardCount}>{deck.cards.length} cards</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+
+      <Text style={styles.tagline}>Connect with people through cards</Text>
+
+      {/* Draw Card Button */}
+      <TouchableOpacity
+        style={styles.drawButton}
+        onPress={() => drawCard(selectedDeck)}
       >
-        {/* Header */}
-        <View style={styles.header}>
-          <Text style={styles.title}>Card Deck Picker</Text>
-          <Text style={styles.subtitle}>Choose a deck and draw your card</Text>
-        </View>
+        <IconSymbol 
+          ios_icon_name="sparkles" 
+          android_material_icon_name="auto-awesome" 
+          size={24} 
+          color="#fff" 
+        />
+        <Text style={styles.drawButtonText}>Draw Card</Text>
+      </TouchableOpacity>
 
-        {/* Deck Selector */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Select a Deck</Text>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.deckScroll}
-          >
-            {DECKS.map((deck, index) => (
-              <React.Fragment key={index}>
-                <TouchableOpacity
-                  key={deck.id}
-                  style={[
-                    styles.deckCard,
-                    selectedDeck?.id === deck.id && styles.deckCardSelected,
-                    { borderColor: deck.color }
-                  ]}
-                  onPress={() => setSelectedDeck(deck)}
-                  activeOpacity={0.7}
-                >
-                  <Text style={styles.deckEmoji}>{deck.emoji}</Text>
-                  <Text style={styles.deckName}>{deck.name}</Text>
-                  <Text style={styles.deckCount}>{deck.cards.length} cards</Text>
-                </TouchableOpacity>
-              </React.Fragment>
-            ))}
-          </ScrollView>
-        </View>
-
-        {/* Draw Buttons */}
-        <View style={styles.section}>
+      {/* Current Card Display */}
+      {currentCard && (
+        <Animated.View style={[styles.card, cardAnimatedStyle]}>
+          <Text style={styles.cardText}>{currentCard.text}</Text>
           <TouchableOpacity
-            style={[styles.drawButton, { backgroundColor: selectedDeck?.color || colors.primary }]}
-            onPress={() => drawCard(selectedDeck)}
-            activeOpacity={0.8}
+            style={styles.favoriteButton}
+            onPress={() => handleToggleFavorite(currentCard)}
           >
-            <IconSymbol
-              ios_icon_name="sparkles"
-              android_material_icon_name="auto-awesome"
-              size={24}
-              color="#FFFFFF"
-            />
-            <Text style={styles.drawButtonText}>
-              {selectedDeck ? `Draw from ${selectedDeck.name}` : 'Select a Deck'}
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.drawButton, styles.drawAllButton]}
-            onPress={() => drawCard(null)}
-            activeOpacity={0.8}
-          >
-            <IconSymbol
-              ios_icon_name="shuffle"
-              android_material_icon_name="shuffle"
-              size={24}
-              color="#FFFFFF"
-            />
-            <Text style={styles.drawButtonText}>Draw from All Decks</Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* Current Card Display */}
-        {currentCard && (
-          <View style={styles.section}>
-            <Animated.View style={[styles.cardDisplay, cardAnimatedStyle]}>
-              <View style={styles.cardHeader}>
-                <Text style={styles.cardEmoji}>{currentCard.emoji}</Text>
-                <TouchableOpacity
-                  onPress={() => handleToggleFavorite(currentCard)}
-                  style={styles.favoriteButton}
-                  activeOpacity={0.7}
-                >
-                  <Animated.View style={favoriteAnimatedStyle}>
-                    <IconSymbol
-                      ios_icon_name={isFavorite(currentCard.id) ? "heart.fill" : "heart"}
-                      android_material_icon_name={isFavorite(currentCard.id) ? "favorite" : "favorite-border"}
-                      size={28}
-                      color={isFavorite(currentCard.id) ? colors.secondary : colors.textSecondary}
-                    />
-                  </Animated.View>
-                </TouchableOpacity>
-              </View>
-              <Text style={styles.cardTitle}>{currentCard.title}</Text>
-              <Text style={styles.cardDescription}>{currentCard.description}</Text>
-              <View style={styles.cardDeckBadge}>
-                <Text style={styles.cardDeckText}>
-                  {DECKS.find(d => d.id === currentCard.deckId)?.name}
-                </Text>
-              </View>
+            <Animated.View style={heartAnimatedStyle}>
+              <IconSymbol
+                ios_icon_name={isFavorite(currentCard.id) ? 'heart.fill' : 'heart'}
+                android_material_icon_name={isFavorite(currentCard.id) ? 'favorite' : 'favorite-border'}
+                size={28}
+                color={isFavorite(currentCard.id) ? '#FF6B9D' : colors.text}
+              />
             </Animated.View>
-          </View>
-        )}
-
-        {/* Favorites Preview */}
-        {favorites.length > 0 && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Your Favorites ({favorites.length})</Text>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.favoritesScroll}
-            >
-              {favorites.map((card, index) => (
-                <React.Fragment key={index}>
-                  <TouchableOpacity
-                    key={card.id}
-                    style={styles.favoriteCard}
-                    onPress={() => {
-                      setCurrentCard(card);
-                      flipAnimation.value = withSequence(
-                        withSpring(1, { damping: 15, stiffness: 100 }),
-                        withSpring(0, { damping: 15, stiffness: 100 })
-                      );
-                    }}
-                    activeOpacity={0.7}
-                  >
-                    <Text style={styles.favoriteCardEmoji}>{card.emoji}</Text>
-                    <Text style={styles.favoriteCardTitle} numberOfLines={2}>
-                      {card.title}
-                    </Text>
-                  </TouchableOpacity>
-                </React.Fragment>
-              ))}
-            </ScrollView>
-          </View>
-        )}
-      </ScrollView>
-    </View>
+          </TouchableOpacity>
+        </Animated.View>
+      )}
+    </ScrollView>
   );
 }
 
@@ -240,60 +148,70 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background,
   },
-  scrollView: {
-    flex: 1,
-  },
-  scrollContent: {
-    paddingTop: 20,
-    paddingBottom: 120,
-    paddingHorizontal: 20,
+  content: {
+    padding: 20,
+    alignItems: 'center',
   },
   header: {
+    flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 32,
+    marginTop: 20,
+    marginBottom: 8,
+  },
+  crystalBall: {
+    width: 40,
+    height: 40,
+    marginRight: 12,
   },
   title: {
     fontSize: 32,
-    fontWeight: '800',
+    fontWeight: 'bold',
     color: colors.text,
-    marginBottom: 8,
   },
   subtitle: {
-    fontSize: 16,
-    color: colors.textSecondary,
-  },
-  section: {
+    fontSize: 14,
+    color: colors.subtitleText,
     marginBottom: 32,
+    textAlign: 'center',
   },
   sectionTitle: {
     fontSize: 20,
-    fontWeight: '700',
+    fontWeight: '600',
     color: colors.text,
     marginBottom: 16,
+    alignSelf: 'flex-start',
   },
-  deckScroll: {
-    paddingRight: 20,
+  deckGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    width: '100%',
+    marginBottom: 24,
   },
   deckCard: {
-    backgroundColor: colors.card,
+    width: '48%',
+    backgroundColor: colors.deckCard,
     borderRadius: 16,
-    padding: 20,
-    marginRight: 12,
+    padding: 16,
+    marginBottom: 16,
     alignItems: 'center',
-    width: 120,
     borderWidth: 2,
-    borderColor: colors.highlight,
-    boxShadow: '0px 4px 12px rgba(124, 58, 237, 0.1)',
-    elevation: 3,
+    borderColor: 'transparent',
   },
   deckCardSelected: {
-    borderWidth: 3,
-    boxShadow: '0px 6px 16px rgba(124, 58, 237, 0.2)',
-    elevation: 5,
+    borderColor: colors.primary,
   },
-  deckEmoji: {
-    fontSize: 40,
-    marginBottom: 8,
+  deckIconContainer: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: colors.deckIconBg,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 12,
+  },
+  deckIcon: {
+    fontSize: 32,
   },
   deckName: {
     fontSize: 16,
@@ -302,104 +220,59 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     textAlign: 'center',
   },
-  deckCount: {
+  deckDescription: {
+    fontSize: 11,
+    color: colors.subtitleText,
+    textAlign: 'center',
+    marginBottom: 8,
+    lineHeight: 14,
+  },
+  deckCardCount: {
     fontSize: 12,
-    color: colors.textSecondary,
+    color: colors.primary,
+    fontWeight: '600',
+  },
+  tagline: {
+    fontSize: 14,
+    color: colors.subtitleText,
+    marginBottom: 24,
+    textAlign: 'center',
   },
   drawButton: {
     backgroundColor: colors.primary,
-    borderRadius: 16,
-    padding: 18,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 12,
-    boxShadow: '0px 4px 12px rgba(124, 58, 237, 0.3)',
-    elevation: 4,
-  },
-  drawAllButton: {
-    backgroundColor: colors.accent,
+    paddingVertical: 16,
+    paddingHorizontal: 32,
+    borderRadius: 30,
+    marginBottom: 24,
+    width: '100%',
   },
   drawButtonText: {
+    color: '#fff',
     fontSize: 18,
-    fontWeight: '700',
-    color: '#FFFFFF',
+    fontWeight: '600',
     marginLeft: 8,
   },
-  cardDisplay: {
-    backgroundColor: colors.card,
-    borderRadius: 24,
-    padding: 32,
-    alignItems: 'center',
-    borderWidth: 2,
-    borderColor: colors.highlight,
-    boxShadow: '0px 8px 24px rgba(124, 58, 237, 0.15)',
-    elevation: 6,
-    minHeight: 300,
+  card: {
     width: CARD_WIDTH,
-    alignSelf: 'center',
-  },
-  cardHeader: {
-    flexDirection: 'row',
+    backgroundColor: colors.card,
+    borderRadius: 20,
+    padding: 24,
+    minHeight: 200,
+    justifyContent: 'center',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    width: '100%',
-    marginBottom: 16,
   },
-  cardEmoji: {
-    fontSize: 64,
+  cardText: {
+    fontSize: 18,
+    color: colors.text,
+    textAlign: 'center',
+    lineHeight: 28,
   },
   favoriteButton: {
-    padding: 8,
-  },
-  cardTitle: {
-    fontSize: 28,
-    fontWeight: '800',
-    color: colors.text,
-    marginBottom: 12,
-    textAlign: 'center',
-  },
-  cardDescription: {
-    fontSize: 16,
-    color: colors.textSecondary,
-    textAlign: 'center',
-    lineHeight: 24,
-    marginBottom: 16,
-  },
-  cardDeckBadge: {
-    backgroundColor: colors.highlight,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
-  },
-  cardDeckText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: colors.primary,
-  },
-  favoritesScroll: {
-    paddingRight: 20,
-  },
-  favoriteCard: {
-    backgroundColor: colors.card,
-    borderRadius: 12,
-    padding: 16,
-    marginRight: 12,
-    alignItems: 'center',
-    width: 100,
-    borderWidth: 1,
-    borderColor: colors.highlight,
-    boxShadow: '0px 2px 8px rgba(124, 58, 237, 0.1)',
-    elevation: 2,
-  },
-  favoriteCardEmoji: {
-    fontSize: 32,
-    marginBottom: 8,
-  },
-  favoriteCardTitle: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: colors.text,
-    textAlign: 'center',
+    position: 'absolute',
+    top: 16,
+    right: 16,
   },
 });

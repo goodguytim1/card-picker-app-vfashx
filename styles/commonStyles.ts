@@ -1,15 +1,19 @@
 
-import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export const colors = {
-  background: '#F8F4FF',
-  text: '#2D1B4E',
-  textSecondary: '#6B5B8C',
-  primary: '#7C3AED',
-  secondary: '#EC4899',
-  accent: '#F59E0B',
-  card: '#FFFFFF',
-  highlight: '#DDD6FE',
+  primary: '#6B2FFF',        // Vibrant purple for buttons (matching screenshot)
+  secondary: '#9D4EDD',      // Lighter Purple
+  accent: '#C77DFF',         // Light Purple
+  background: '#FFFFFF',     // White background (matching screenshot)
+  backgroundAlt: '#F5F5F5',  // Light grey
+  text: '#000000',           // Black text (matching screenshot)
+  subtitleText: '#999999',   // Grey subtitle text (matching screenshot)
+  grey: '#CCCCCC',           // Light grey
+  card: '#FFFFFF',           // White card background
+  deckCard: '#F8F8F8',       // Very light grey for deck cards
+  deckIconBg: '#FFE8E8',     // Light pink/peach background for icons
+  border: '#E0E0E0',         // Border color
 };
 
 export const buttonStyles = StyleSheet.create({
@@ -19,7 +23,7 @@ export const buttonStyles = StyleSheet.create({
     width: '100%',
   },
   backButton: {
-    backgroundColor: colors.highlight,
+    backgroundColor: colors.backgroundAlt,
     alignSelf: 'center',
     width: '100%',
   },
@@ -72,8 +76,8 @@ export const commonStyles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   card: {
-    backgroundColor: colors.card,
-    borderColor: colors.highlight,
+    backgroundColor: colors.backgroundAlt,
+    borderColor: colors.grey,
     borderWidth: 1,
     borderRadius: 10,
     padding: 10,
@@ -85,6 +89,6 @@ export const commonStyles = StyleSheet.create({
   icon: {
     width: 60,
     height: 60,
-    tintColor: colors.primary,
+    tintColor: "white",
   },
 });
