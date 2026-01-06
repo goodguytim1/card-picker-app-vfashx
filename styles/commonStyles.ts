@@ -14,6 +14,24 @@ export const colors = {
   deckCard: '#F8F8F8',       // Very light grey for deck cards
   deckIconBg: '#FFE8E8',     // Light pink/peach background for icons
   border: '#E0E0E0',         // Border color
+  
+  // Light mode colors
+  light: {
+    background: '#FFFFFF',
+    card: '#FFFFFF',
+    text: '#000000',
+    textSecondary: '#666666',
+    border: '#E0E0E0',
+  },
+  
+  // Dark mode colors
+  dark: {
+    background: '#121212',
+    card: '#1E1E1E',
+    text: '#FFFFFF',
+    textSecondary: '#AAAAAA',
+    border: '#333333',
+  },
 };
 
 export const buttonStyles = StyleSheet.create({
