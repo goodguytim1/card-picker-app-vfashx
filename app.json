@@ -1,13 +1,13 @@
+
 {
   "expo": {
-    "name": "Magick",
-    "slug": "Magick",
+    "name": "Card Picker",
+    "slug": "card-picker",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/natively-dark.png",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-    "scheme": "magick",
     "splash": {
       "image": "./assets/images/natively-dark.png",
       "resizeMode": "contain",
@@ -15,9 +15,12 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.magick.app",
+      "bundleIdentifier": "com.cardpicker.app",
+      "buildNumber": "1",
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSPhotoLibraryUsageDescription": "This app needs access to your photo library to save cards.",
+        "NSCameraUsageDescription": "This app needs access to your camera to take photos of cards."
       }
     },
     "android": {
@@ -26,7 +29,8 @@
         "backgroundColor": "#000000"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.magick.app"
+      "package": "com.cardpicker.app",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/images/final_quest_240x240.png",
@@ -37,12 +41,15 @@
       "expo-router",
       "expo-web-browser"
     ],
+    "scheme": "cardpicker",
     "experiments": {
       "typedRoutes": true
     },
     "extra": {
       "router": {},
-      "backendUrl": "https://4fnnq4fs7qjzkkxamu8qzyb7hv5twk4j.app.specular.dev"
+      "eas": {
+        "projectId": "your-project-id-here"
+      }
     }
   }
 }
