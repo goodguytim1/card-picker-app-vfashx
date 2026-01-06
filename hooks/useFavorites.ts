@@ -6,8 +6,7 @@ import { Card } from '@/types/card';
 const FAVORITES_KEY = '@card_favorites';
 
 export function useFavorites() {
-  const [favorites, setFavorites] = useState<Card[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [favorites, setFavorites] = useState<string[]>([]);
 
   useEffect(() => {
     loadFavorites();
@@ -20,38 +19,24 @@ export function useFavorites() {
         setFavorites(JSON.parse(stored));
       }
     } catch (error) {
-      console.log('Error loading favorites:', error);
-    } finally {
-      setLoading(false);
+      console.error('Error loading favorites:', error);
     }
   };
 
-  const toggleFavorite = async (card: Card) => {
+  const toggleFavorite = async (cardId: string) => {
     try {
-      const isFavorite = favorites.some(f => f.id === card.id);
-      let newFavorites: Card[];
-
-      if (isFavorite) {
-        newFavorites = favorites.filter(f => f.id !== card.id);
-      } else {
-        newFavorites = [...favorites, card];
-      }
-
+      const newFavorites = favorites.includes(cardId)
+        ? favorites.filter(id => id !== cardId)
+        : [...favorites, cardId];
+      
       setFavorites(newFavorites);
       await AsyncStorage.setItem(FAVORITES_KEY, JSON.stringify(newFavorites));
     } catch (error) {
-      console.log('Error toggling favorite:', error);
+      console.error('Error toggling favorite:', error);
     }
   };
 
-  const isFavorite = (cardId: string) => {
-    return favorites.some(f => f.id === cardId);
-  };
+  const isFavorite = (cardId: string) => favorites.includes(cardId);
 
-  return {
-    favorites,
-    loading,
-    toggleFavorite,
-    isFavorite,
-  };
+  return { favorites, toggleFavorite, isFavorite };
 }
