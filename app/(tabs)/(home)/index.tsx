@@ -90,7 +90,7 @@ export default function HomeScreen() {
     <ScrollView style={[styles.container, { backgroundColor: currentColors.background }]}>
       <View style={styles.header}>
         <Image
-          source={require('@/assets/images/crystal-ball.png')}
+          source={require('@/assets/images/d319e23a-883e-4dc0-a32c-e41ef19f0d10.png')}
           style={styles.logo}
         />
         <Text style={[styles.title, { color: currentColors.text }]}>Magick</Text>
@@ -141,7 +141,8 @@ export default function HomeScreen() {
               >
                 <Animated.View style={heartAnimatedStyle}>
                   <IconSymbol
-                    name={isCardFavorite(selectedCard.id) ? 'heart.fill' : 'heart'}
+                    ios_icon_name={isCardFavorite(selectedCard.id) ? 'heart.fill' : 'heart'}
+                    android_material_icon_name={isCardFavorite(selectedCard.id) ? 'favorite' : 'favorite-border'}
                     size={32}
                     color={isCardFavorite(selectedCard.id) ? '#FF6B9D' : currentColors.textSecondary}
                   />
