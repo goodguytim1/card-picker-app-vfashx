@@ -1,8 +1,7 @@
-
 {
   "expo": {
     "name": "Card Picker",
-    "slug": "card-picker",
+    "slug": "Card Picker",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/natively-dark.png",
@@ -49,7 +48,9 @@
       "router": {},
       "eas": {
         "projectId": "your-project-id-here"
-      }
+      },
+      "backendUrl": "https://4fnnq4fs7qjzkkxamu8qzyb7hv5twk4j.app.specular.dev"
     }
-  }
+  },
+  "scheme": "Card Picker"
 }
