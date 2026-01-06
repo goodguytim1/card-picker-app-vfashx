@@ -1,18 +1,45 @@
 
 import React from 'react';
-import { NativeTabs, Icon, Label } from 'expo-router/unstable-native-tabs';
+import { Stack } from 'expo-router';
+import FloatingTabBar, { TabBarItem } from '@/components/FloatingTabBar';
 
 export default function TabLayout() {
+  // Define the tabs configuration
+  const tabs: TabBarItem[] = [
+    {
+      name: '(home)',
+      route: '/(tabs)/(home)/',
+      icon: 'home',
+      label: 'Home',
+    },
+    {
+      name: 'favorites',
+      route: '/(tabs)/favorites',
+      icon: 'favorite',
+      label: 'Favorites',
+    },
+    {
+      name: 'settings',
+      route: '/(tabs)/settings',
+      icon: 'settings',
+      label: 'Settings',
+    },
+  ];
+
+  // For Android and Web, use Stack navigation with custom floating tab bar
   return (
-    <NativeTabs>
-      <NativeTabs.Trigger key="home" name="(home)">
-        <Icon sf="house.fill" />
-        <Label>Home</Label>
-      </NativeTabs.Trigger>
-      <NativeTabs.Trigger key="favorites" name="favorites">
-        <Icon sf="heart.fill" />
-        <Label>Favorites</Label>
-      </NativeTabs.Trigger>
-    </NativeTabs>
+    <>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          animation: 'none', // Remove fade animation to prevent black screen flash
+        }}
+      >
+        <Stack.Screen key="home" name="(home)" />
+        <Stack.Screen key="favorites" name="favorites" />
+        <Stack.Screen key="settings" name="settings" />
+      </Stack>
+      <FloatingTabBar tabs={tabs} />
+    </>
   );
 }

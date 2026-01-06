@@ -5,7 +5,7 @@ import { Card } from '@/types/card';
 
 const FAVORITES_KEY = '@card_favorites';
 
-export const useFavorites = () => {
+export function useFavorites() {
   const [favorites, setFavorites] = useState<string[]>([]);
 
   useEffect(() => {
@@ -36,9 +36,7 @@ export const useFavorites = () => {
     }
   };
 
-  const isFavorite = (cardId: string) => {
-    return favorites.includes(cardId);
-  };
+  const isFavorite = (cardId: string) => favorites.includes(cardId);
 
   return { favorites, toggleFavorite, isFavorite };
-};
+}
