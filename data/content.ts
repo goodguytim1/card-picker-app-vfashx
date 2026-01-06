@@ -1,7 +1,6 @@
 
 import { Card } from '@/types/card';
 
-// Magick Mixer Deck - A Social & Interactive Icebreaker Deck (21+ Adults Only)
 export const magickMixerCards: Card[] = [
   {
     id: 'mixer_1',
@@ -30,30 +29,6 @@ export const magickMixerCards: Card[] = [
     deck: 'magickmixer',
     tags: ['social', 'fun', 'icebreaker', '21+'],
     mood: 'playful',
-    intensity: 2,
-    isAtHome: true,
-  },
-];
-
-// Midnight Magick Deck - Intimacy, Sensuality & Sex (Adults Only 18+)
-export const midnightMagickCards: Card[] = [
-  {
-    id: 'midnight_1',
-    text: 'Share a fantasy you\'ve never told anyone.',
-    type: 'question',
-    deck: 'datenight',
-    tags: ['intimacy', 'sensuality', '18+'],
-    mood: 'intimate',
-    intensity: 3,
-    isAtHome: true,
-  },
-  {
-    id: 'midnight_2',
-    text: 'Describe your ideal romantic evening in detail.',
-    type: 'question',
-    deck: 'datenight',
-    tags: ['intimacy', 'romance', '18+'],
-    mood: 'romantic',
     intensity: 2,
     isAtHome: true,
   },
