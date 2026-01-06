@@ -1,4 +1,3 @@
-
 {
   "expo": {
     "name": "Magick",
@@ -42,7 +41,8 @@
       "typedRoutes": true
     },
     "extra": {
-      "router": {}
+      "router": {},
+      "backendUrl": "https://4fnnq4fs7qjzkkxamu8qzyb7hv5twk4j.app.specular.dev"
     }
   }
 }
