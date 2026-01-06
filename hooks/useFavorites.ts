@@ -1,12 +1,12 @@
 
 import { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Card, FavoriteCard } from '@/types/card';
+import { Card } from '@/types/card';
 
 const FAVORITES_KEY = '@card_favorites';
 
-export const useFavorites = () => {
-  const [favorites, setFavorites] = useState<FavoriteCard[]>([]);
+export function useFavorites() {
+  const [favorites, setFavorites] = useState<string[]>([]);
 
   useEffect(() => {
     loadFavorites();
@@ -25,15 +25,10 @@ export const useFavorites = () => {
 
   const toggleFavorite = async (cardId: string) => {
     try {
-      const isFav = favorites.some((fav) => fav.cardId === cardId);
-      let newFavorites: FavoriteCard[];
-
-      if (isFav) {
-        newFavorites = favorites.filter((fav) => fav.cardId !== cardId);
-      } else {
-        newFavorites = [...favorites, { cardId, timestamp: Date.now() }];
-      }
-
+      const newFavorites = favorites.includes(cardId)
+        ? favorites.filter(id => id !== cardId)
+        : [...favorites, cardId];
+      
       setFavorites(newFavorites);
       await AsyncStorage.setItem(FAVORITES_KEY, JSON.stringify(newFavorites));
     } catch (error) {
@@ -41,9 +36,7 @@ export const useFavorites = () => {
     }
   };
 
-  const isFavorite = (cardId: string): boolean => {
-    return favorites.some((fav) => fav.cardId === cardId);
-  };
+  const isFavorite = (cardId: string) => favorites.includes(cardId);
 
   return { favorites, toggleFavorite, isFavorite };
-};
+}

@@ -17,7 +17,7 @@ export default function FavoritesScreen() {
   const { favorites, toggleFavorite } = useFavorites();
 
   const favoriteCards = DECKS.flatMap(deck => deck.cards).filter(card =>
-    favorites.some(fav => fav.cardId === card.id)
+    favorites.includes(card.id)
   );
 
   const handleRemoveFavorite = (card: any) => {
