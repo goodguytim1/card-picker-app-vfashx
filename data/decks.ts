@@ -1,0 +1,97 @@
+
+import { Deck } from '@/types/card';
+
+export const DECKS: Deck[] = [
+  {
+    id: 'tarot',
+    name: 'Tarot',
+    emoji: '🔮',
+    color: '#7C3AED',
+    cards: [
+      { id: 't1', title: 'The Fool', description: 'New beginnings, innocence, spontaneity', deckId: 'tarot', emoji: '🃏' },
+      { id: 't2', title: 'The Magician', description: 'Manifestation, resourcefulness, power', deckId: 'tarot', emoji: '🎩' },
+      { id: 't3', title: 'The High Priestess', description: 'Intuition, sacred knowledge, divine feminine', deckId: 'tarot', emoji: '👑' },
+      { id: 't4', title: 'The Empress', description: 'Femininity, beauty, nature, abundance', deckId: 'tarot', emoji: '🌸' },
+      { id: 't5', title: 'The Emperor', description: 'Authority, structure, control, fatherhood', deckId: 'tarot', emoji: '⚔️' },
+      { id: 't6', title: 'The Hierophant', description: 'Spiritual wisdom, tradition, conformity', deckId: 'tarot', emoji: '📿' },
+      { id: 't7', title: 'The Lovers', description: 'Love, harmony, relationships, values alignment', deckId: 'tarot', emoji: '💕' },
+      { id: 't8', title: 'The Chariot', description: 'Control, willpower, success, determination', deckId: 'tarot', emoji: '🏇' },
+      { id: 't9', title: 'Strength', description: 'Courage, persuasion, influence, compassion', deckId: 'tarot', emoji: '🦁' },
+      { id: 't10', title: 'The Hermit', description: 'Soul searching, introspection, inner guidance', deckId: 'tarot', emoji: '🕯️' },
+      { id: 't11', title: 'Wheel of Fortune', description: 'Good luck, karma, life cycles, destiny', deckId: 'tarot', emoji: '🎡' },
+      { id: 't12', title: 'Justice', description: 'Justice, fairness, truth, cause and effect', deckId: 'tarot', emoji: '⚖️' },
+      { id: 't13', title: 'The Hanged Man', description: 'Pause, surrender, letting go, new perspectives', deckId: 'tarot', emoji: '🙃' },
+      { id: 't14', title: 'Death', description: 'Endings, change, transformation, transition', deckId: 'tarot', emoji: '🦋' },
+      { id: 't15', title: 'Temperance', description: 'Balance, moderation, patience, purpose', deckId: 'tarot', emoji: '🧘' },
+    ]
+  },
+  {
+    id: 'playing',
+    name: 'Playing Cards',
+    emoji: '🎴',
+    color: '#EC4899',
+    cards: [
+      { id: 'p1', title: 'Ace of Hearts', description: 'New love, emotional beginning', deckId: 'playing', emoji: '❤️' },
+      { id: 'p2', title: 'King of Hearts', description: 'Emotional maturity, compassion', deckId: 'playing', emoji: '👑' },
+      { id: 'p3', title: 'Queen of Hearts', description: 'Nurturing, caring, intuitive', deckId: 'playing', emoji: '💝' },
+      { id: 'p4', title: 'Jack of Hearts', description: 'Romantic messages, creativity', deckId: 'playing', emoji: '💌' },
+      { id: 'p5', title: 'Ace of Spades', description: 'New ideas, mental clarity', deckId: 'playing', emoji: '♠️' },
+      { id: 'p6', title: 'King of Spades', description: 'Authority, intellectual power', deckId: 'playing', emoji: '🗡️' },
+      { id: 'p7', title: 'Queen of Spades', description: 'Independent, perceptive', deckId: 'playing', emoji: '🖤' },
+      { id: 'p8', title: 'Jack of Spades', description: 'Youthful energy, messages', deckId: 'playing', emoji: '⚡' },
+      { id: 'p9', title: 'Ace of Diamonds', description: 'New financial opportunity', deckId: 'playing', emoji: '💎' },
+      { id: 'p10', title: 'King of Diamonds', description: 'Business success, wealth', deckId: 'playing', emoji: '💰' },
+      { id: 'p11', title: 'Queen of Diamonds', description: 'Practical, resourceful', deckId: 'playing', emoji: '👸' },
+      { id: 'p12', title: 'Jack of Diamonds', description: 'News about money', deckId: 'playing', emoji: '📨' },
+      { id: 'p13', title: 'Ace of Clubs', description: 'New creative project', deckId: 'playing', emoji: '♣️' },
+      { id: 'p14', title: 'King of Clubs', description: 'Leadership, ambition', deckId: 'playing', emoji: '🎯' },
+      { id: 'p15', title: 'Queen of Clubs', description: 'Confident, social', deckId: 'playing', emoji: '✨' },
+    ]
+  },
+  {
+    id: 'oracle',
+    name: 'Oracle Cards',
+    emoji: '✨',
+    color: '#F59E0B',
+    cards: [
+      { id: 'o1', title: 'New Beginnings', description: 'Fresh start, clean slate, opportunity', deckId: 'oracle', emoji: '🌅' },
+      { id: 'o2', title: 'Inner Wisdom', description: 'Trust your intuition, listen within', deckId: 'oracle', emoji: '🧠' },
+      { id: 'o3', title: 'Abundance', description: 'Prosperity, gratitude, plenty', deckId: 'oracle', emoji: '🌟' },
+      { id: 'o4', title: 'Protection', description: 'Safety, boundaries, guardian energy', deckId: 'oracle', emoji: '🛡️' },
+      { id: 'o5', title: 'Transformation', description: 'Change, growth, evolution', deckId: 'oracle', emoji: '🦋' },
+      { id: 'o6', title: 'Love', description: 'Compassion, connection, heart opening', deckId: 'oracle', emoji: '💖' },
+      { id: 'o7', title: 'Clarity', description: 'Clear vision, understanding, insight', deckId: 'oracle', emoji: '🔍' },
+      { id: 'o8', title: 'Courage', description: 'Bravery, strength, facing fears', deckId: 'oracle', emoji: '🦁' },
+      { id: 'o9', title: 'Peace', description: 'Calm, serenity, inner harmony', deckId: 'oracle', emoji: '☮️' },
+      { id: 'o10', title: 'Joy', description: 'Happiness, celebration, lightness', deckId: 'oracle', emoji: '🎉' },
+      { id: 'o11', title: 'Healing', description: 'Recovery, restoration, wholeness', deckId: 'oracle', emoji: '💚' },
+      { id: 'o12', title: 'Creativity', description: 'Expression, inspiration, artistry', deckId: 'oracle', emoji: '🎨' },
+      { id: 'o13', title: 'Balance', description: 'Equilibrium, harmony, moderation', deckId: 'oracle', emoji: '⚖️' },
+      { id: 'o14', title: 'Trust', description: 'Faith, surrender, letting go', deckId: 'oracle', emoji: '🙏' },
+      { id: 'o15', title: 'Gratitude', description: 'Appreciation, thankfulness, blessings', deckId: 'oracle', emoji: '🌺' },
+    ]
+  },
+  {
+    id: 'affirmations',
+    name: 'Affirmations',
+    emoji: '💫',
+    color: '#10B981',
+    cards: [
+      { id: 'a1', title: 'I Am Enough', description: 'You are complete and worthy as you are', deckId: 'affirmations', emoji: '💝' },
+      { id: 'a2', title: 'I Trust Myself', description: 'Your inner wisdom guides you perfectly', deckId: 'affirmations', emoji: '🌟' },
+      { id: 'a3', title: 'I Am Abundant', description: 'Prosperity flows to you naturally', deckId: 'affirmations', emoji: '💰' },
+      { id: 'a4', title: 'I Am Loved', description: 'You are surrounded by love and support', deckId: 'affirmations', emoji: '💕' },
+      { id: 'a5', title: 'I Am Strong', description: 'You have the power to overcome anything', deckId: 'affirmations', emoji: '💪' },
+      { id: 'a6', title: 'I Am Creative', description: 'Your creativity knows no bounds', deckId: 'affirmations', emoji: '🎨' },
+      { id: 'a7', title: 'I Am Peaceful', description: 'Inner calm is your natural state', deckId: 'affirmations', emoji: '🕊️' },
+      { id: 'a8', title: 'I Am Grateful', description: 'Gratitude opens doors to abundance', deckId: 'affirmations', emoji: '🙏' },
+      { id: 'a9', title: 'I Am Confident', description: 'You believe in yourself completely', deckId: 'affirmations', emoji: '✨' },
+      { id: 'a10', title: 'I Am Healthy', description: 'Your body is strong and vibrant', deckId: 'affirmations', emoji: '🌱' },
+      { id: 'a11', title: 'I Am Successful', description: 'Success comes naturally to you', deckId: 'affirmations', emoji: '🏆' },
+      { id: 'a12', title: 'I Am Joyful', description: 'Happiness is your birthright', deckId: 'affirmations', emoji: '😊' },
+      { id: 'a13', title: 'I Am Brave', description: 'Courage flows through your veins', deckId: 'affirmations', emoji: '🦁' },
+      { id: 'a14', title: 'I Am Wise', description: 'You possess deep inner knowing', deckId: 'affirmations', emoji: '🦉' },
+      { id: 'a15', title: 'I Am Free', description: 'You are liberated and unlimited', deckId: 'affirmations', emoji: '🦋' },
+    ]
+  }
+];
