@@ -21,26 +21,6 @@ export interface Deck {
   cards: Card[];
 }
 
-export interface Business {
-  id: string;
-  name: string;
-  category: string;
-  tags: string[];
-  location: {
-    latitude: number;
-    longitude: number;
-    address: string;
-  };
-  source: 'affiliate' | 'sponsor';
-  description?: string;
-  rating?: number;
-}
-
-export interface UserSettings {
-  darkMode: boolean;
-  monetizationMode: 'affiliate' | 'sponsor';
-}
-
 export interface FavoriteCard {
   cardId: string;
   timestamp: number;

@@ -1,22 +1,22 @@
 
 import { Deck } from '@/types/card';
-import { magickMixerCards, midnightMagickCards } from './content';
+import { sparkQuestionsCards, mirrorMomentsCards } from './content';
 
 export const DECKS: Deck[] = [
   {
-    id: 'magickmixer',
-    name: 'Magick Mixer',
-    description: 'A Social & Interactive Icebreaker Deck (21+ Adults Only)',
-    color: '#FF6B35',
-    icon: '🍹',
-    cards: magickMixerCards,
+    id: 'sparkquestions',
+    name: 'Spark Questions',
+    description: 'Fun, lighthearted questions to break the ice and spark conversation',
+    color: '#FF6B6B',
+    icon: 'sparkles',
+    cards: sparkQuestionsCards,
   },
   {
-    id: 'midnightmagick',
-    name: 'Midnight Magick',
-    description: 'Intimacy, Sensuality & Sex (Adults Only 18+)',
-    color: '#C41E3A',
-    icon: '❤️',
-    cards: midnightMagickCards,
+    id: 'mirrormoments',
+    name: 'Mirror Moments',
+    description: 'Deep, reflective questions for meaningful connections',
+    color: '#4ECDC4',
+    icon: 'heart.circle',
+    cards: mirrorMomentsCards,
   },
 ];
